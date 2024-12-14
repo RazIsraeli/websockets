@@ -1,0 +1,29 @@
+{
+  "name": "websockets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-all": "npm i && cd client && npm i",
+    "build-server": "tsc",
+    "build-server-w": "tsc --watch",
+    "build-client": "cd client && npm run build",
+    "build-client-w": "cd client && npm run watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "@types/socket.io": "^3.0.2",
+    "typescript": "^5.7.2"
+  }
+}

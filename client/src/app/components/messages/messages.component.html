@@ -1,0 +1,8 @@
+<div class="messages">
+  <h1>Websocket Client</h1>
+  <input type="text" name="msg" id="msg" placeholder="Insert message here..." [(ngModel)]="msg">
+  <button (click)="sendMessage()">Send Message to Server</button>
+  @for (msg of messages; track $index) {
+  <p>{{msg.senderId}}: {{msg.message}}</p>
+  }
+</div>
