@@ -13,7 +13,7 @@
                 "${workspaceFolder}/dist/**/*.js"
             ],
             "env": {
-                "ENVIRONMENT": "production"
+                "ENVIRONMENT": "development"
             },
             "sourceMaps": true,
             "skipFiles": [
