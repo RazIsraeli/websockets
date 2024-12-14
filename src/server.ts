@@ -10,37 +10,36 @@ const PORT = 3000;
 
 const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
-    cors: {
-        origin: ['http://127.0.0.1:4200', 'http://localhost:4200'],
-        credentials: true
-    },
-});
-
 let clientIdx = 0;
 const connectedClients = new Map<string, Socket>();
 
-// const __fileName = fileURLToPath(import.meta.url);
-// const __dirName = dirname(__fileName);
-// const client = path.join(__dirName, 'client', 'browser');
-// console.log("🚀 ~ client:", client)
+let io: Server;
 
 app.use(express.json());
-// app.use(express.static(client));
-
 
 if (process.env.ENVIRONMENT === 'development') {
+    console.log('Running on development mode');
     const corsOptions = {
         origin: ['http://127.0.0.1:4200', 'http://localhost:4200'],
         credentials: true,
     }
     app.use(cors(corsOptions));
+    // Init socket connection for development config
+    io = new Server(httpServer, {
+        cors: {
+            origin: ['http://127.0.0.1:4200', 'http://localhost:4200'],
+            credentials: true
+        },
+    });
 } else {
+    console.log('Running on production mode');
     const __fileName = fileURLToPath(import.meta.url);
     const __dirName = dirname(__fileName);
     const client = path.join(__dirName, 'client', 'browser');
     console.log("🚀 ~ client:", client)
     app.use(express.static(client));
+    // Init socket connection for production config
+    io = new Server(httpServer);
 }
 
 io.on('connection', (socket: Socket) => {
