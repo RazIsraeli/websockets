@@ -8,22 +8,23 @@
 # Build - Development
 * Run command "npm run build-server-w".
 * On another terminal run command "npm run build-client-w".
+* In launch.json file, set ENVIRONMENT = 'development' to enable cors in server (allowed from port 4200, e.g. Angular's client).
 * Press F5 (Run and Debug -> Run Server).
 
 ### NOTE: Environment Variables in .vscode/launch.json:
 
 OPTION 1:
 "env": {
-    "ENVIRONMENT": "production" --> allows you to run the server on port 3000 and serve the client from the server.
+    "ENVIRONMENT": "production" --> allows you to run the server on port 3000 and serve the client from the server (e.g. open browser on localhost:3000).
 },
 
 OPTION 2:
 "env": {
-    "ENVIRONMENT": "development" --> allows you to start the server but serve the client using ng server on port 4200 (Angular's default).
+    "ENVIRONMENT": "development" --> allows you to start the server but serve the client using ng serve (e.g. open browser on localhost:4200).
 },
 
 # Start Program - development
-* Open browser on http://localhost:4200 (run the server before by running "npm run start").
+* Open browser on http://localhost:4200 (run the server before by running "npm run start, or by using "Run and Debug" with development config).
 
 # Start Program - production
-* Open browser on http://localhost:3000
+* Open browser on http://localhost:3000 (run the server by running "npm run start", or by using "Run and Debug" with production config).
