@@ -9,7 +9,9 @@
     "build-server": "tsc",
     "build-server-w": "tsc --watch",
     "build-client": "cd client && npm run build",
-    "build-client-w": "cd client && npm run watch"
+    "build-client-w": "cd client && npm run watch",
+    "start": "node dist/server.js",
+    "serve-client": "cd client && ng s"
   },
   "keywords": [],
   "author": "",
