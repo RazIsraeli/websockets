@@ -28,3 +28,14 @@ OPTION 2:
 
 # Start Program - production
 * Open browser on http://localhost:3000 (run the server by running "npm run start", or by using "Run and Debug" with production config).
+
+# Start Kafka locally
+* Open cmd/powershell where Kafka is installed (c:kafka), and run:
+    .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.proerties
+* Open another terminal and run:
+     .\bin\windows\kafka-server-start.bat .\config\server.properties
+
+** To createa a new topic - open another terminal and run:
+     .\bin\windows\kafka-topics.bat --create --topic quickstart-events --bootstrap-server localhost:9092
+** To watch existing topics in bootstrapped server, run:
+     .\bin\windows\kafka-topics.bat --describe --bootstrap-server localhost:9092
