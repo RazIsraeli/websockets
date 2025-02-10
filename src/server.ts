@@ -5,6 +5,8 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 
+import { kafkaService } from './services/kafkaService.js';
+
 const app = express();
 const PORT = 3000;
 
@@ -16,6 +18,10 @@ const connectedClients = new Map<string, Socket>();
 let io: Server;
 
 app.use(express.json());
+
+kafkaService.startConsumer("quickstart-events", (message) => {
+    console.log("📥 Processing message:", message);
+});
 
 if (process.env.ENVIRONMENT === 'development') {
     console.log('Running on development mode');
@@ -52,11 +58,18 @@ io.on('connection', (socket: Socket) => {
     io.emit('client-connected', { clientId, totalClients: connectedClients.size });
 
     // Handle custom event
-    socket.on('button-clicked', (data) => {
+    socket.on('button-clicked', async (data) => {
         console.log("🚀 ~ socket.on ~ data:", data)
         console.log(`Message from client: ${data.message}`);
 
         io.emit('broadcast-message', { message: data.message, senderId: socket.id });
+
+        // Send a message to Kafka
+        try {
+            await kafkaService.sendMessage('quickstart-events', `From client: ${clientId}, Message: ${data.message}`);
+        } catch (error) {
+            console.log('Could not write to kafka topic! ', error);
+        }
     });
 
     // Handle client disconnection
@@ -67,13 +80,18 @@ io.on('connection', (socket: Socket) => {
 
         io.emit('client-disconnected', { clientId, totalClient: connectedClients.size });
     });
-
 });
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from websocket server!');
 });
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, async () => {
     console.log(`Server is running at http://localhost:${PORT}`);
+    try {
+        await kafkaService.connectProducer();
+        console.log('Server connected to Kafka');
+    } catch (error) {
+        console.error('Server could not connect to Kafka!', error);
+    }
 });
