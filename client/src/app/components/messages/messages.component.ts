@@ -38,8 +38,13 @@ export class MessagesComponent implements OnInit {
   }
 
   sendMessage(): void {
+    //Handle invalid input
+    if (!this.msg) {
+      return;
+    }
     //Send a custom event to the server
     this.wsService.sendMessage('button-clicked', { message: this.msg });
+    this.msg = '';
   }
 
 }
