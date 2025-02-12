@@ -31,7 +31,7 @@ OPTION 2:
 
 # Start Kafka locally
 * Open cmd/powershell where Kafka is installed (c:kafka), and run:
-    .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.proerties
+    .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 * Open another terminal and run:
      .\bin\windows\kafka-server-start.bat .\config\server.properties
 
