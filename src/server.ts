@@ -5,7 +5,7 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 
-import { kafkaService } from './services/kafkaService.js';
+import { kafkaService } from './services/KafkaService.js';
 
 const app = express();
 const PORT = 3000;
