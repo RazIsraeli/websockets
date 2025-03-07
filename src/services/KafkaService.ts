@@ -7,7 +7,7 @@ class KafkaService {
 
     constructor() {
         this.kafka = new Kafka({
-            clientId: 'node-js-server',
+            clientId: 'websockets-server',
             brokers: [process.env.KAFKA_BROKER ?? 'localhost:9092'],
         });
 
