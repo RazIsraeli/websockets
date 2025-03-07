@@ -66,7 +66,7 @@ io.on('connection', (socket: Socket) => {
 
         // Send a message to Kafka
         try {
-            await kafkaService.sendMessage('client-msg', `{"from_client": "${clientId}", "Message": "${data.message}"}`);
+            await kafkaService.sendMessage('kafka-client-server-topic', `{"from_client": "${clientId}", "message": "${data.message}"}`);
         } catch (error) {
             console.log('Could not write to kafka topic! ', error);
         }
