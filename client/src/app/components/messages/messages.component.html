@@ -7,3 +7,9 @@
   <p>{{msg.senderId}}: {{msg.message}}</p>
   }
 </div>
+<div class="counter">
+  <p>Counter: {{counter()}}</p>
+  <input [(ngModel)]="addToCounterVal" type="number" name="counter" id="counter" #counterInput (keydown.enter)="addToCounter(counterInput.valueAsNumber)"
+    placeholder="Insert number here...">
+  <button (click)="addToCounter(counterInput.valueAsNumber)">Add to Counter</button>
+</div>

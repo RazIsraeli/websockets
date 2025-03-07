@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../../services/websocket.service';
 
@@ -17,12 +17,15 @@ export class MessagesComponent implements OnInit {
   msg: string = '';
 
   messages: { senderId: string; message: string }[] = [];
+  counter = signal(0);
+  addToCounterVal: number = 0;
 
   constructor() {
     this.wsService.listenForBroadCast().subscribe(
       {
         next: (data) => {
           this.messages.push(data);
+          this.counter.update(count => count + 1);
         },
         error: (err) => {
           throw new Error(err);
@@ -45,6 +48,12 @@ export class MessagesComponent implements OnInit {
     //Send a custom event to the server
     this.wsService.sendMessage('button-clicked', { message: this.msg });
     this.msg = '';
+  }
+
+  addToCounter(value: number): void {
+    if (!value) return;
+    this.counter.update(count => count + value);
+    this.addToCounterVal = 0;
   }
 
 }
