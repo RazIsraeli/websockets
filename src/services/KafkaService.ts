@@ -12,7 +12,7 @@ class KafkaService {
         });
 
         this.producer = this.kafka.producer();
-        this.consumer = this.kafka.consumer({ groupId: 'my-consumer-group' });
+        this.consumer = this.kafka.consumer({ groupId: 'websocket-server-group' });
     }
 
     async connectProducer(): Promise<void> {
