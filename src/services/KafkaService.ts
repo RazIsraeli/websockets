@@ -1,6 +1,6 @@
 import { Kafka, Producer, Consumer, EachMessagePayload } from 'kafkajs';
 
-class KafkaService  {
+class KafkaService {
     private kafka: Kafka;
     private producer: Producer;
     private consumer: Consumer;
@@ -30,7 +30,7 @@ class KafkaService  {
                 topic,
                 messages: [{ value: message }]
             });
-            console.log(`Message sent to topic ${topic}: ${message}`);
+            console.log(`Message sent to topic '${topic}': ${message}`);
         } catch (error) {
             console.log('Kafka producer error!', error);
         }
@@ -47,8 +47,14 @@ class KafkaService  {
                 eachMessage: async ({ message }: EachMessagePayload) => {
                     if (message.value) {
                         const receivedMessage = message.value.toString();
-                        console.log(`Received from topic ${topic}: ${receivedMessage}`);
-                        messageHandler(receivedMessage);
+                        console.log(`Received from topic '${topic}': ${receivedMessage}`);
+                        try {
+                            const parsedMessage = this.isValidJson(receivedMessage) ? JSON.parse(receivedMessage) : receivedMessage;
+                            messageHandler(parsedMessage);
+                        } catch (error) {
+                            console.log('Error parsing message!', error);
+                            messageHandler(receivedMessage);
+                        }
                     }
                 },
             });
@@ -67,6 +73,15 @@ class KafkaService  {
         }
     }
 
+    private isValidJson(str: string): boolean {
+        try {
+            JSON.parse(str);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
 }
 
-export const kafkaService =  new KafkaService();
+export const kafkaService = new KafkaService();
