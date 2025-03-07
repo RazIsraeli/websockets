@@ -19,7 +19,7 @@ let io: Server;
 
 app.use(express.json());
 
-kafkaService.startConsumer("quickstart-events", (message) => {
+kafkaService.startConsumer("client-msg", (message) => {
     console.log("📥 Processing message:", message);
 });
 
@@ -66,7 +66,7 @@ io.on('connection', (socket: Socket) => {
 
         // Send a message to Kafka
         try {
-            await kafkaService.sendMessage('quickstart-events', `From client: ${clientId}, Message: ${data.message}`);
+            await kafkaService.sendMessage('client-msg', `{"from_client": "${clientId}", "Message": "${data.message}"}`);
         } catch (error) {
             console.log('Could not write to kafka topic! ', error);
         }
